@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF">
+    <Appenders>
+        <Console name="Console">
+            <PatternLayout pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS} %C.%M [%t] %-5level %logger{360} - %m%n}"/>
+        </Console>
+        <File name="File" fileName="/file/springboot/springboot.log">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %C.%M [%t] %-5level %logger{360} - %m%n</pattern>
+            </PatternLayout>
+        </File>
+        <File name="FileTest" fileName="/file/springboot/test/springboot.log">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %m%n</pattern>
+            </PatternLayout>
+        </File>
+
+        <RollingFile name="RollingFile" fileName="/file/springboot/app1.log" filePattern="/file/springboot/app1-%d{yyyyMMddHHmmssSS}.log.gz"
+                     ignoreExceptions="true">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <SizeBasedTriggeringPolicy size="50K" />   <!--当数据大于100KB时压缩-->
+        </RollingFile>
+
+        <JDBC name="databaseAppender" tableName="t_application_log">
+            <ConnectionFactory class="club.lovety.xy.log.DbLoggerFactory" method="getDatabaseConnection" />
+            <Column name="guid" isUnicode="true" pattern="%d{UNIX_MILLIS}"></Column>
+            <Column name="eventDate" isEventTimestamp="true" />
+            <Column name="levele" pattern="%level" />
+            <Column name="loggerg" pattern="%C.%M" />
+            <Column name="messagee" pattern="%message" />
+            <Column name="exception" pattern="%ex{full}" />
+        </JDBC>
+    </Appenders>
+    <Loggers>
+        <logger name="club" level="DEBUG" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+
+        <logger name="net.smc" level="DEBUG" additivity="false">
+            <!--<appender-ref ref="FileTest"></appender-ref>-->
+            <appender-ref ref="Console"></appender-ref>
+            <!--<appender-ref ref="RollingFile"></appender-ref>-->
+            <appender-ref ref="databaseAppender"></appender-ref>
+        </logger>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"></AppenderRef>
+        </Root>
+
+    </Loggers>
+</Configuration>
