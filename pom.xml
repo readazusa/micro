@@ -13,7 +13,6 @@
     <druid.version>1.0.26</druid.version>
   </properties>
 
-
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -83,6 +82,13 @@
       <artifactId>oracle-driver-ojdbc</artifactId>
       <version>12.1.0.2</version>
     </dependency>
+
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.1.6.Final</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>ty</finalName>
