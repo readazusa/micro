@@ -20,11 +20,16 @@ public class MyEncoder extends MessageToByteEncoder<NettyInfo> {
     @Override
     protected void encode(ChannelHandlerContext ctx, NettyInfo msg, ByteBuf out) throws Exception {
         log.debug("neggty：{}",msg);
+        String result = msg.getHead()+msg.getMsg();
+        byte[] bb = result.getBytes();
+//        ByteBuf byteBuf = ctx.alloc().buffer(bb.length);
+        out.writeBytes(bb);
+        ctx.writeAndFlush(out);
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-//        super.write(ctx, msg, promise);
+        super.write(ctx, msg, promise);
         log.debug("写入： {}",msg);
     }
 
@@ -32,6 +37,7 @@ public class MyEncoder extends MessageToByteEncoder<NettyInfo> {
     @Override
     public void read(ChannelHandlerContext ctx) throws Exception {
 //        super.read(ctx);
+
     }
 
     @Override

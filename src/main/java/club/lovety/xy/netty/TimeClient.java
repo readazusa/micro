@@ -41,7 +41,7 @@ public class TimeClient {
             SocketChannel socketChannel =  (SocketChannel)f.channel();
             NettyInfo nettyInfo = new NettyInfo();
             nettyInfo.setHead(1234);
-            nettyInfo.setMsg("你好啊");
+            nettyInfo.setMsg("000");
             socketChannel.writeAndFlush(nettyInfo);
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
