@@ -1,58 +1,54 @@
 package club.lovety.xy.netty;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Created by 念梓  on 2016/11/29.
+ * Created by 念梓  on 2016/11/30.
  * Email:sunmch@163.com
  * author: 念梓
  * des:
  */
-public class DiscardServierHandle extends ChannelInboundHandlerAdapter {
+public class TimeClientHandler extends ChannelInboundHandlerAdapter{
 
-    private static final Logger log = LogManager.getLogger(DiscardServierHandle.class);
+    private static final Logger log = LogManager.getLogger(TimeClientHandler.class);
 
-    private ByteBuf bbb;
+    ByteBuf sendMgs;
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) { // (2)
-        log.info("ChannelHandlerContext: {}", ctx);
+    public TimeClientHandler() {
+        byte[] send = "send".getBytes();
+        sendMgs = Unpooled.buffer(send.length);
+        sendMgs.writeBytes(send);
     }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) { // (4)
-        // Close the connection when an exception is raised.
-        log.error("异常退出...........");
-//        cause.printStackTrace();
-        ctx.close();
-    }
-
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        log.debug("注册了一个channel......{}", ctx);
         super.channelRegistered(ctx);
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        log.debug("退出注册一个unregister。。。。。。");
         super.channelUnregistered(ctx);
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
+//        super.channelActive(ctx);
+        ctx.writeAndFlush(sendMgs);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("监听连接是否存在.............");
         super.channelInactive(ctx);
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        super.channelRead(ctx, msg);
     }
 
     @Override
@@ -62,7 +58,9 @@ public class DiscardServierHandle extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        log.debug("测试心跳: {}",ctx);
+//        super.userEventTriggered(ctx, evt);
+        log.debug("客户端的监听: {}",ctx);
+//        log.debu
     }
 
     @Override
@@ -71,14 +69,7 @@ public class DiscardServierHandle extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        bbb = ctx.alloc().buffer(4);
-    }
-
-    @Override
-    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-//        super.handlerRemoved(ctx);
-        bbb.release();
-        bbb = null;
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        super.exceptionCaught(ctx, cause);
     }
 }
