@@ -16,6 +16,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  * des:
  */
 public class TimeClient {
+
+
+
+
     public static void main(String[] args) throws Exception {
         String host = "127.0.0.1";
         int port = 8888;
@@ -28,16 +32,17 @@ public class TimeClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new TimeClientHandler());
+                    ch.pipeline().addLast(new MyEncoder()).addLast(new MyIdle(60,60,100));
                 }
             });
 
             // Start the client.
             ChannelFuture f = b.connect(host, port).sync(); // (5)
             SocketChannel socketChannel =  (SocketChannel)f.channel();
-
-//            socketChannel.writeAndFlush()
-
+            NettyInfo nettyInfo = new NettyInfo();
+            nettyInfo.setHead(1234);
+            nettyInfo.setMsg("你好啊");
+            socketChannel.writeAndFlush(nettyInfo);
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
         } finally {
