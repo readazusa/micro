@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
 
 /**
  * Created by 念梓  on 2016/11/29.
@@ -34,7 +35,9 @@ public class DiscardServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
 //                            ch.pipeline().addLast(new DiscardServierHandle());
-                            ch.pipeline().addLast(new MyDecoder());
+                            ch.pipeline().addLast(new MyServerIdleStateHandler(6,6,6));
+                            ch.pipeline().addLast(new StringDecoder());
+                            ch.pipeline().addLast(new DiscardServierHandle());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)

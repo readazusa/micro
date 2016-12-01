@@ -17,13 +17,6 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter{
 
     private static final Logger log = LogManager.getLogger(TimeClientHandler.class);
 
-    ByteBuf sendMgs;
-
-    public TimeClientHandler() {
-        byte[] send = "send".getBytes();
-        sendMgs = Unpooled.buffer(send.length);
-        sendMgs.writeBytes(send);
-    }
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
@@ -38,7 +31,6 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 //        super.channelActive(ctx);
-        ctx.writeAndFlush(sendMgs);
     }
 
     @Override
@@ -48,6 +40,7 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("============");
         super.channelRead(ctx, msg);
     }
 

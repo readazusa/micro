@@ -21,6 +21,8 @@ public class DiscardServierHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) { // (2)
         log.info("ChannelHandlerContext: {}", ctx);
+        ByteBuf b = ctx.alloc().buffer(4);
+        ctx.writeAndFlush(b.readBytes("1234".getBytes()));
 
     }
 

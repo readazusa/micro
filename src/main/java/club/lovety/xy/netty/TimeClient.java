@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * Created by 念梓  on 2016/11/30.
@@ -16,8 +17,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  * des:
  */
 public class TimeClient {
-
-
 
 
     public static void main(String[] args) throws Exception {
@@ -32,17 +31,21 @@ public class TimeClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new MyEncoder()).addLast(new MyIdle(60,60,100));
+//                    ch.pipeline().addLast(new MyEncoder()).addLast(new MyIdle(60,60,100));
+                    ch.pipeline().addLast("idleStateHandler",new MyIdleStateHandler(0,6,6));
+                    ch.pipeline().addLast(new MyStringEncoder(),new StringEncoder());
+                    ch.pipeline().addLast(new MyStringDecoder());
                 }
             });
 
             // Start the client.
             ChannelFuture f = b.connect(host, port).sync(); // (5)
             SocketChannel socketChannel =  (SocketChannel)f.channel();
-            NettyInfo nettyInfo = new NettyInfo();
-            nettyInfo.setHead(1234);
-            nettyInfo.setMsg("000");
-            socketChannel.writeAndFlush(nettyInfo);
+//            NettyInfo nettyInfo = new NettyInfo();
+//            nettyInfo.setHead(1234);
+//            nettyInfo.setMsg("000");
+//            socketChannel.writeAndFlush(nettyInfo);
+            socketChannel.writeAndFlush("12345667");
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
         } finally {

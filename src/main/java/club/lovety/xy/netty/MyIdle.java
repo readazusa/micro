@@ -22,6 +22,6 @@ public class MyIdle extends IdleStateHandler {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        log.debug("监测服务器端的链接: context: {},evt: {}", ctx, evt);
+        log.info("监测服务器端的链接: context: {},evt: {}", ctx, evt);
     }
 }
