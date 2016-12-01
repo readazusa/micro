@@ -32,4 +32,11 @@ public class MyStringDecoder extends StringDecoder {
         log.debug("===========");
         super.decode(ctx, msg, out);
     }
+
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        log.debug("客户端读取的心跳:");
+        super.userEventTriggered(ctx, evt);
+    }
 }

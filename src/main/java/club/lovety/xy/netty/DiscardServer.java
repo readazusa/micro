@@ -1,5 +1,6 @@
 package club.lovety.xy.netty;
 
+import club.lovety.xy.netty.simple.MyServerFileHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -8,7 +9,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
  * Created by 念梓  on 2016/11/29.
@@ -35,9 +38,10 @@ public class DiscardServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
 //                            ch.pipeline().addLast(new DiscardServierHandle());
-                            ch.pipeline().addLast(new MyServerIdleStateHandler(6,6,6));
-                            ch.pipeline().addLast(new StringDecoder());
-                            ch.pipeline().addLast(new DiscardServierHandle());
+//                            ch.pipeline().addLast(new MyServerIdleStateHandler(6,6,6));
+//                            ch.pipeline().addLast(new StringDecoder());
+//                            ch.pipeline().addLast(new DiscardServierHandle());
+                            ch.pipeline().addLast( new LineBasedFrameDecoder(8192),new ChunkedWriteHandler(),new MyServerFileHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
