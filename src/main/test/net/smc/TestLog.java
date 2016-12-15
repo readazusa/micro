@@ -18,19 +18,87 @@ public class TestLog {
 
     public static void main(String[] args) {
         log.info("你好啊========sasdasdsad======main");
+        new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                log.info("你好啊,压缩到日志");
+                if (i % 5000 == 0) {
+                    log.info("执行5000条时间: {}", new Date());
+                }
+            }
+        }).start();
+        new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                log.info("你好啊,压缩到日志");
+                if (i % 5000 == 0) {
+                    log.info("执行5000条时间: {}", new Date());
+                }
+            }
+        }).start();
+        new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                log.info("你好啊,压缩到日志");
+                if (i % 5000 == 0) {
+                    log.info("执行5000条时间: {}", new Date());
+                }
+            }
+        }).start();
+        new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                log.info("你好啊,压缩到日志");
+                if (i % 5000 == 0) {
+                    log.info("执行5000条时间: {}", new Date());
+                }
+            }
+        }).start();
+        new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                log.info("你好啊,压缩到日志");
+                if (i % 5000 == 0) {
+                    log.info("执行5000条时间: {}", new Date());
+                }
+            }
+        }).start();
+        new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                log.info("你好啊,压缩到日志");
+                if (i % 5000 == 0) {
+                    log.info("执行5000条时间: {}", new Date());
+                }
+            }
+        }).start();
+        new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                log.info("你好啊,压缩到日志");
+                if (i % 5000 == 0) {
+                    log.info("执行5000条时间: {}", new Date());
+                }
+            }
+        }).start();
+        new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                log.info("你好啊,压缩到日志");
+                if (i % 5000 == 0) {
+                    log.info("执行5000条时间: {}", new Date());
+                }
+            }
+        }).start();
+
+
     }
 
     @Test
-    public void testOne(){
+    public void testOne() {
         long start = System.currentTimeMillis();
-        for (int i=0;i<1000000;i++){
+        for (int i = 0; i < 1000000; i++) {
             log.info("你好啊,压缩到日志");
-            if(i%5000 == 0){
-                log.info("执行5000条时间: {}",new Date());
+            if (i % 5000 == 0) {
+                log.info("执行5000条时间: {}", new Date());
             }
         }
+
+
         long end = System.currentTimeMillis();
-        System.out.println((end-start)+"  :毫秒");
+        System.out.println((end - start) + "  :毫秒");
     }
 
 
